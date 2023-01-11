@@ -19,6 +19,6 @@ export class UsersService {
   }
 
   getName(user:String):Observable<User>{
-    return this.http.get<User>(`http://localhost:3000/users/${user}`)
+    return this.http.get<User>(`http://localhost:3000/users?name=${user}`)
   }
 }
