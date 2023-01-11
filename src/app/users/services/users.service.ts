@@ -17,8 +17,4 @@ export class UsersService {
   getUser(id:number):Observable<User>{
     return this.http.get<User>(`http://localhost:3000/users/${id}`)
   }
-
-  getName(user:String):Observable<User>{
-    return this.http.get<User>(`http://localhost:3000/users?name=${user}`)
-  }
 }

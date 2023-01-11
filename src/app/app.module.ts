@@ -9,6 +9,9 @@ import { UsersModule } from './users/users.module';
 import { ServersModule } from './servers/servers.module';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
+import { ServersService } from './servers/services/servers.service';
+import { AuthGuard } from './auth-guard.service';
+import { AuthService } from './auth.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,7 @@ import { FormsModule } from '@angular/forms';
     ServersModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ServersService, AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
