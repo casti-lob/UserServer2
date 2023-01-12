@@ -1,35 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
+  email: string = '';
+  password: string = '';
+  isLoggedIn!: boolean;
+  constructor(private authService: AuthService, private router: Router) { }
 
-  constructor(private authService:AuthService, private router:Router) {
-    if(localStorage.getItem("login") == null){
-      localStorage.setItem("login", "false");
-    }
-  }
-
-  logged!:boolean;
   ngOnInit(): void {
-    this.logged = JSON.parse(localStorage.getItem("login")||"false");
+    this.isLoggedIn = this.authService.isAuthenticated();
+    
   }
 
-  user:string="";
-  password:string="";
-
-  checkLogin(){
-    this.authService.checkUser(this.user, this.password);
-  }
-
-  onlogout(){
+  signIn():void{
+      console.log('Email: ', this.email, 'Password: ', this.password)
+      this.authService.login(this.email,this.password)
+      .subscribe({
+        next: (resp) => {
+          if (resp) {
+            this.isLoggedIn=true;
+            this.router.navigate(['/servers']);
+          }
+          else {
+            this.email=''; 
+            this.password='';
+            confirm('Email o contraseña incorrectos');
+          }
+        }
+      })
+      
+    }
+    
+  logOut():void{
     this.authService.logout();
-    this.logged = false;
-    this.router.navigate(['/']);
+    this.isLoggedIn=false;
   }
-
+    
+  
 }
